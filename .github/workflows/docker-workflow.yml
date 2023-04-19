@@ -24,6 +24,7 @@ jobs:
         ls
         docker build -t docker-imagen .
         docker save docker-imagen | gzip > docker-imagen.tar.gz
+        ls
         
     - name: Copy Files
       uses: appleboy/scp-action@master
