@@ -27,21 +27,15 @@ jobs:
         pwd
         ls
         
-
-    - name: Checkout
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup SSH and Git
-      uses: webfactory/ssh-agent@v0.5.0
+    - name: Add temporary SSH key
+      uses: shimataro/ssh-key-action@v2
       with:
-        ssh-private-key: ${{ secrets.VOLTO_DEPLOY_SSH_PRIVATE_KEY }}
-      env:
-        GIT_SSH_COMMAND: ssh -i ${{ secrets.VOLTO_DEPLOY_SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no
-
-    - name: Setup git configuration
-      run: |
-        git config --global user.name "${{ secrets.CI_GITHUB_USERNAME }}"
-        git config --global user.email "${{ secrets.CI_GITHUB_USER_EMAIL }}"
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        name: temp_ssh_key
+        known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
 
 
