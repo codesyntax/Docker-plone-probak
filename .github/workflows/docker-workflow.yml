@@ -27,11 +27,40 @@ jobs:
         pwd
         ls
         
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup SSH and Git
+      uses: webfactory/ssh-agent@v0.5.0
+      with:
+        ssh-private-key: ${{ secrets.VOLTO_DEPLOY_SSH_PRIVATE_KEY }}
+      env:
+        GIT_SSH_COMMAND: ssh -i ${{ secrets.VOLTO_DEPLOY_SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no
+
+    - name: Setup git configuration
+      run: |
+        git config --global user.name "${{ secrets.CI_GITHUB_USERNAME }}"
+        git config --global user.email "${{ secrets.CI_GITHUB_USER_EMAIL }}"
+
+    - name: Push changes to remote branch
+      run: |
+        git remote set-url --push origin "git@github.com:${{ github.repository }}.git"
+        git checkout -B ${{ github.ref }}
+        git pull origin ${{ github.ref }}
+        git push origin ${{ github.ref }}
+
+    - name: Configure NPM and Yarn authentication
+      run: |
+        echo "//${{ secrets.CODESYNTAX_NPM_REPO_URL }}:_authToken=${{ secrets.CODESYNTAX_REPO_NPM_TOKEN }}" > ~/.npmrc
+        echo "always-auth=true" >> ~/.npmrc
+        echo "registry \"https://${{ secrets.CODESYNTAX_NPM_REPO_URL }}\"" > ~/.yarnrc
+
     - name: Copy Files
       uses: appleboy/scp-action@master
       with:
         host: 161.35.26.40
-        username: voltodocker
+        username: csmant
         key: ${{ secrets.SSH_KNOWN_HOSTS }}
         source: /home/runner/work/Docker-plone-probak/Docker-plone-probak/docker/docker-imagen.tar.gz
         target: /home/csmant/docker-imagen.tar.gz
@@ -40,7 +69,7 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: 161.35.26.40
-        username: voltodocker
+        username: csmant
         key: ${{ secrets.SSH_KNOWN_HOSTS }}
         script: |
           docker stop $(docker ps -aq)
