@@ -51,6 +51,12 @@ jobs:
         echo "always-auth=true" >> ~/.npmrc
         echo "registry \"https://${{ secrets.CODESYNTAX_NPM_REPO_URL }}\"" > ~/.yarnrc
 
+
+    - name: Run whoami
+      run: ssh csmant@161.35.26.40 'whoami'
+      env:
+        SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+  
     - name: Copy Files
       uses: appleboy/scp-action@master
       with:
