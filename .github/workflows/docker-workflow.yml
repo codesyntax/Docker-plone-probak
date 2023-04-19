@@ -21,6 +21,7 @@ jobs:
     - name: Build Docker Image
       run: |
         cd docker
+        ls
         docker build -t docker-imagen .
         docker save docker-imagen | gzip > docker-imagen.tar.gz
         
