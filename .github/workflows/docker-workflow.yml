@@ -31,8 +31,8 @@ jobs:
       uses: appleboy/scp-action@master
       with:
         host: 161.35.26.40
-        username: csmant
-        key: ${{ secrets.SSH_KNOWN_HOSTS }}
+        username: voltodocker
+        key: ${{ env.SSH_KNOWN_HOSTS }}
         source: /home/runner/work/Docker-plone-probak/Docker-plone-probak/docker/docker-imagen.tar.gz
         target: /home/csmant/docker-imagen.tar.gz
 
@@ -40,8 +40,8 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: 161.35.26.40
-        username: csmant
-        key: ${{ secrets.SSH_KNOWN_HOSTS }}
+        username: voltodocker
+        key: ${{ env.SSH_KNOWN_HOSTS }}
         script: |
           docker stop $(docker ps -aq)
           docker load < docker-imagen.tar.gz
