@@ -35,6 +35,7 @@ jobs:
       with:
         key: ${{ secrets.SSH_KNOWN_HOSTS }}
         name: temp_ssh_key
+        known_hosts: 161.35.26.40
 
 
 
