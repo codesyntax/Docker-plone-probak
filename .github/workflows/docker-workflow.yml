@@ -33,8 +33,8 @@ jobs:
         host: 161.35.26.40
         username: csmant
         key: ${{ secrets.SSH_KNOWN_HOSTS }}
-        source: docker-imagen.tar.gz
-        target: /home/user/docker/docker-imagen.tar.gz
+        source: /home/runner/work/Docker-plone-probak/Docker-plone-probak/docker/docker-imagen.tar.gz
+        target: /home/csmant/docker-imagen.tar.gz
 
     - name: Activate Docker Image
       uses: appleboy/ssh-action@master
