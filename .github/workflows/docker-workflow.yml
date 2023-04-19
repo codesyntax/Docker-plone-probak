@@ -35,7 +35,7 @@ jobs:
       with:
         key: ${{ secrets.SSH_KNOWN_HOSTS }}
         name: temp_ssh_key
-        known_hosts: ${{ secrets.KNOWN_HOSTS }}
+
 
 
 
