@@ -32,7 +32,7 @@ jobs:
       with:
         host: 161.35.26.40
         username: voltodocker
-        key: ${{ env.SSH_KNOWN_HOSTS }}
+        key: ${{ secrets.SSH_KNOWN_HOSTS }}
         source: /home/runner/work/Docker-plone-probak/Docker-plone-probak/docker/docker-imagen.tar.gz
         target: /home/csmant/docker-imagen.tar.gz
 
@@ -41,7 +41,7 @@ jobs:
       with:
         host: 161.35.26.40
         username: voltodocker
-        key: ${{ env.SSH_KNOWN_HOSTS }}
+        key: ${{ secrets.SSH_KNOWN_HOSTS }}
         script: |
           docker stop $(docker ps -aq)
           docker load < docker-imagen.tar.gz
