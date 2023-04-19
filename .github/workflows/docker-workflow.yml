@@ -57,6 +57,8 @@ jobs:
         host: 161.35.26.40
         username: csmant
         key: ${{ secrets.SSH_KNOWN_HOSTS }}
+        script: |
+          whoami  
         source: /home/runner/work/Docker-plone-probak/Docker-plone-probak/docker/docker-imagen.tar.gz
         target: /home/csmant/docker-imagen.tar.gz
 
