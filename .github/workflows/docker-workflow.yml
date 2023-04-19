@@ -31,8 +31,8 @@ jobs:
         host: 161.35.26.40
         username: csmant
         key: ${{ secrets.SSH_KNOWN_HOSTS }}
-        source: docker/docker-imagen.tar.gz
-        target: /home/user/docker-imagen.tar.gz
+        source: docker-imagen.tar.gz
+        target: /home/user/docker/docker-imagen.tar.gz
 
     - name: Activate Docker Image
       uses: appleboy/ssh-action@master
