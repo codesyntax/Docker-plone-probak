@@ -1,0 +1,43 @@
+
+name: Docker Workflow
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+      ref: ${{ github.ref }}
+      path: .
+
+    - name: Build Docker Image
+      run: |
+       
+        docker build -t docker-imagen .
+        docker save docker-imagen | gzip > docker-imagen.tar.gz
+        
+    - name: Copy Files
+      uses: appleboy/scp-action@master
+      with:
+        host: 161.35.26.40
+        username: csmant
+        key: ${{ secrets.SSH_KNOWN_HOSTS }}
+        source: docker-imagen.tar.gz
+        target: /home/user/docker-imagen.tar.gz
+
+    - name: Activate Docker Image
+      uses: appleboy/ssh-action@master
+      with:
+        host: 161.35.26.40
+        username: csmant
+        key: ${{ secrets.SSH_KNOWN_HOSTS }}
+        script: |
+          docker stop $(docker ps -aq)
+          docker load < docker-imagen.tar.gz
+          docker run docker-imagen
